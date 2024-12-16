@@ -12,7 +12,7 @@ const Navbar = () => (
 
         {/* GitHub Link */}
         <a
-          href="https://github.com/your-username" // Replace with your actual GitHub username
+          href="https://github.com/wcgraupmann" // Replace with your actual GitHub username
           target="_blank"
           rel="noopener noreferrer"
           className="text-gray-600 hover:text-gray-800"

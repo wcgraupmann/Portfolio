@@ -5,7 +5,7 @@ import Navbar from "./components/Navbar";
 
 function App() {
   return (
-    <div className="flex flex-col min-h-screen overflow-hidden">
+    <div className="flex flex-col bg-slate-100 min-h-screen overflow-hidden">
       {" "}
       {/* Flexbox layout with no overflow */}
       <Navbar />
