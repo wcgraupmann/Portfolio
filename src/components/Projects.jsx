@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-import img1 from "../assets/graduation-pic.png";
 import imgWitAi from "../assets/GBwitai.png";
 import imgEmptyCart from "../assets/GBwebsiteEmpty.png";
 import imgRecipe from "../assets/GBwebsiteRecipe.png";
