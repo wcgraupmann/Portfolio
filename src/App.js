@@ -1,17 +1,17 @@
-import logo from "./logo.svg";
-import "./App.css";
+import React from "react";
+import Intro from "./components/Intro";
+import Projects from "./components/Projects";
+import Navbar from "./components/Navbar";
 
 function App() {
   return (
-    <div className="p-8">
-      <div className="flex flex-col border border-black p-8">
-        <p className="m-8">flex</p>
-        <p className="m-8">col</p>
-      </div>
-      <div className="flex border border-black p-8">
-        <p className="m-8">flex</p>
-        <p className="m-8">row</p>
-      </div>
+    <div className="flex flex-col min-h-screen overflow-hidden">
+      {" "}
+      {/* Flexbox layout with no overflow */}
+      <Navbar />
+      <Intro />
+      <Projects />
+      {/* <Footer /> */}
     </div>
   );
 }
