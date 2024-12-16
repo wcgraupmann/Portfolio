@@ -35,12 +35,14 @@ function Projects() {
         "Web Application Frontend: React, Tesseract OCR, Wit AI",
         "Mobile Application Frontend: React Native + Expo",
         "Backend: Node.js",
+        "Authentication: JSON Web Tokens",
       ],
       keyFeatures: [
         "Tesseract OCR: allows the user to upload a picture or screenshot of a recipe and automatically populate the items into their grocery list",
         "Wit AI: trained a data model so that any item that is added to the grocery list is correctly categorized",
         "Mobile App: users can use the mobile app to view the grocery list when shopping",
         `Transactions: items that are bought by a user are added to a transaction list to track purchases within households`,
+        "User Authentication: utilized JSON Web Tokens to authenticate users",
       ],
       futureSteps: [
         "Groups: Users can create and join private grocery list groups for one's household",
