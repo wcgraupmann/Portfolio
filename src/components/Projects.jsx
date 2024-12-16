@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 
 import img1 from "../assets/graduation-pic.png";
+import imgWitAi from "../assets/GBwitai.png";
+import imgEmptyCart from "../assets/GBwebsiteEmpty.png";
+import imgRecipe from "../assets/GBwebsiteRecipe.png";
+import imgMobileList from "../assets/GBgrocerylist.PNG";
+import imgMobileTransactions from "../assets/GBtransactions.PNG";
+
+import styleMirror from "../assets/SyleMirrorDemo.mp4";
 
 function Projects() {
   const [selectedProjectIndex, setSelectedProjectIndex] = useState(0);
@@ -12,6 +19,7 @@ function Projects() {
   const handleSelectProject = (index) => {
     setSelectedProjectIndex(index);
     setCarouselIndex(0);
+    setScreenshotIndex(0); // Reset screenshot index when switching projects
   };
 
   const projects = [
@@ -41,48 +49,70 @@ function Projects() {
       ],
       screenshots: [
         {
-          image: img1,
-          title: "Title one",
+          image: imgWitAi,
+          type: "image",
+          title: "Wit Ai Entity Training",
           explanation:
-            "This screenshot shows the main user interface of GroceryBuddy, where users can manage and share their shopping lists.",
+            "I created distinct entities for each main food category within a grocery store such that items added to the grocery list are categorized appropriately.",
         },
         {
-          image: img1,
-          title: "",
+          image: imgEmptyCart,
+          type: "image",
+          title: "Item + Recipe From",
           explanation:
-            "Here, you can see how the app integrates with local stores to provide product recommendations.",
+            "Users can either upload an entire recipe or add individual items to their grocery list",
+        },
+        {
+          image: imgRecipe,
+          type: "image",
+          title: "Recipe View",
+          explanation: "Items can be edited or deleted as needed",
+        },
+        {
+          image: imgMobileList,
+          type: "image",
+          title: "Mobile Application: Grocery List",
+          explanation:
+            "Users can select items at the store as they go and submit the list to remove them from the grocery list when they checkout",
+        },
+        {
+          image: imgMobileTransactions,
+          type: "image",
+          title: "Mobile Application: Transactions",
+          explanation: `Items that are "checked out" by a user are moved to a transaction object that displays who purchased the items - helping households track expenses`,
         },
       ],
     },
     {
       title: "StyleMirror",
       description: [
-        "StyleMirror is a mobile app that improves the online shopping experience by using augmented reality.",
-        "It allows users to visualize how clothes would look on them by creating a virtual mirror.",
+        "StyleMirror was a group project for my Mobile Foundations class at UW - Madison.",
+        "It allows users to visualize how clothes would look on them by creating a virtual mirror!",
         "The app uses the fal-ai/idm-vton API to generate accurate virtual try-ons for various clothing items.",
       ],
-      techStack: ["React Native", "Expo", "Express.js", "fal-ai/idm-vton API"],
+      techStack: [
+        "React Native",
+        "Expo",
+        "Express.js",
+        "fal-ai/idm-vton API",
+        "Firebase",
+      ],
       keyFeatures: [
-        "Virtual try-on with AR",
-        "Wide variety of clothing items to try on",
+        "Virtual try-on by allowing a user to overlay an image of a clothing item onto an image of themselves",
+        "Users could upload images from their Photos app or take a new photo",
         "Realistic, accurate clothing visualization",
       ],
       futureSteps: [
-        "Add more retailer support for a wider range of clothing.",
-        "Improve AR accuracy for a more realistic try-on experience.",
+        "Allow users to share the generated outfit via Text or Social Media",
+        "Deploy with AWS",
       ],
       screenshots: [
         {
-          image: img1,
-          title: "",
+          image: styleMirror,
+          type: "video",
+          title: "StyleMirror Demo",
           explanation:
             "This screenshot shows the augmented reality feature, where users can try on clothing items virtually.",
-        },
-        {
-          image: img1,
-          title: "",
-          explanation:
-            "Here, the app visualizes a clothing item on the user’s avatar in real-time using AR.",
         },
       ],
     },
@@ -127,6 +157,11 @@ function Projects() {
     }
   };
 
+  const handleMediaClick = (index) => {
+    setExpandedImage(index); // Set the clicked media (image or video) as expanded
+    setModalOpen(true); // Open the modal
+  };
+
   return (
     <section
       id="projects"
@@ -135,7 +170,6 @@ function Projects() {
       <h2 className="text-4xl font-bold text-center text-gray-800 mb-12">
         {/* My Projects */}
       </h2>
-
       {/* Buttons Container (Horizontal row above selected project) */}
       <div className="flex justify-center space-x-4 mb-8">
         {projects.map((project, index) => (
@@ -152,7 +186,6 @@ function Projects() {
           </button>
         ))}
       </div>
-
       {/* Full Screen Carousel Display */}
       <div className="flex flex-col items-center justify-center w-full h-full space-y-8">
         {/* Left side - Descriptions and Content */}
@@ -174,64 +207,90 @@ function Projects() {
             {carouselIndex === 1 && (
               <ul className="list-disc pl-5 text-lg text-gray-600">
                 {selectedProject.techStack.map((tech, index) => (
-                  <li key={index}>{tech}</li>
+                  <li className="mb-3" key={index}>
+                    {tech}
+                  </li>
                 ))}
               </ul>
             )}
             {carouselIndex === 2 && (
               <ul className="list-disc pl-5 text-lg text-gray-600">
                 {selectedProject.keyFeatures.map((feature, index) => (
-                  <li key={index}>{feature}</li>
+                  <li className="mb-3" key={index}>
+                    {feature}
+                  </li>
                 ))}
               </ul>
             )}
-            {carouselIndex === 3 && (
-              <div className="flex flex-col items-center w-full">
-                {/* Screenshot and Explanation */}
-                <div className="flex items-center justify-between w-full max-w-4xl mb-6">
-                  {/* Explanation Section (Aligned Left) */}
-                  <div className="w-1/2 pl-6 text-lg text-gray-600 flex flex-col justify-start items-start text-left">
-                    {/* Title above Explanation */}
-                    <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                      {selectedProject.screenshots[screenshotIndex].title}
-                    </h3>
-                    <p>
-                      {selectedProject.screenshots[screenshotIndex].explanation}
-                    </p>
+            {carouselIndex === 3 ? (
+              selectedProject.screenshots?.length > 0 ? (
+                <div className="flex flex-col items-center w-full">
+                  {/* Screenshot and Explanation */}
+                  <div className="flex items-start justify-start w-full max-w-4xl mb-6">
+                    {/* Explanation Section */}
+                    <div className=" w-full sm:w-1/2 pl-6 text-lg text-gray-600 flex flex-col justify-start items-start text-left">
+                      <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                        {selectedProject.screenshots[screenshotIndex]?.title ||
+                          "Untitled"}
+                      </h3>
+                      <p>
+                        {selectedProject.screenshots[screenshotIndex]
+                          ?.explanation || "No explanation available."}
+                      </p>
+                    </div>
+
+                    {/* Media (Image or Video) */}
+                    <div className="w-full sm:w-1/2 flex justify-center">
+                      {selectedProject.screenshots[screenshotIndex]?.type ===
+                      "image" ? (
+                        <img
+                          src={
+                            selectedProject.screenshots[screenshotIndex]?.image
+                          }
+                          alt={`Screenshot ${screenshotIndex + 1}`}
+                          className="w-auto h-44 mb-4 cursor-pointer object-contain"
+                          onClick={() => handleMediaClick(screenshotIndex)}
+                        />
+                      ) : selectedProject.screenshots[screenshotIndex]?.type ===
+                        "video" ? (
+                        <video
+                          src={
+                            selectedProject.screenshots[screenshotIndex]?.image
+                          }
+                          controls
+                          className="w-auto h-44 mb-4 cursor-pointer object-contain"
+                          onClick={() => handleMediaClick(screenshotIndex)}
+                        />
+                      ) : null}
+                    </div>
                   </div>
 
-                  {/* Image */}
-                  <div className="w-1/2 flex justify-center">
-                    <img
-                      src={selectedProject.screenshots[screenshotIndex].image}
-                      alt={`Screenshot ${screenshotIndex + 1}`}
-                      className="w-auto h-44 mb-4 cursor-pointer object-contain"
-                      onClick={() => handleImageClick(screenshotIndex)} // Handle image click
-                    />
+                  {/* Circle Navigation */}
+                  <div className="flex justify-center mb-6">
+                    {selectedProject.screenshots.map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setScreenshotIndex(index)}
+                        className={`w-3 h-3 mx-2 rounded-full ${
+                          screenshotIndex === index
+                            ? "bg-blue-600"
+                            : "bg-gray-300 hover:bg-gray-400"
+                        } transition-colors`}
+                      ></button>
+                    ))}
                   </div>
                 </div>
-
-                {/* Circle Navigation */}
-                <div className="flex justify-center mb-6">
-                  {selectedProject.screenshots.map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setScreenshotIndex(index)}
-                      className={`w-3 h-3 mx-2 rounded-full ${
-                        screenshotIndex === index
-                          ? "bg-blue-600"
-                          : "bg-gray-300 hover:bg-gray-400"
-                      } transition-colors`}
-                    ></button>
-                  ))}
+              ) : (
+                <div className="text-gray-600 text-lg text-center">
+                  No screenshots or videos available for this project.
                 </div>
-              </div>
-            )}
+              )
+            ) : null}
 
             {carouselIndex === 4 && (
               <div>
                 {selectedProject.futureSteps.map((step, index) => (
-                  <p key={index} className="text-lg text-gray-600">
+                  <p key={index} className="text-lg text-gray-600 mb-3">
                     {step}
                   </p>
                 ))}
@@ -240,7 +299,6 @@ function Projects() {
           </div>
         </div>
       </div>
-
       {/* Carousel Indicators */}
       <div className="flex justify-center mt-8">
         {slideNames.map((slideName, index) => (
@@ -257,8 +315,8 @@ function Projects() {
           </button>
         ))}
       </div>
-
       {/* Modal for Expanded Image */}
+      {/* Modal for Expanded Image or Video */}
       {modalOpen && (
         <div
           className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-50"
@@ -268,11 +326,20 @@ function Projects() {
             className="relative"
             onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside the modal content
           >
-            <img
-              src={selectedProject.screenshots[expandedImage].image}
-              alt="Expanded Screenshot"
-              className="max-w-[80vw] max-h-[80vh] object-contain rounded-lg"
-            />
+            {selectedProject.screenshots[expandedImage]?.type === "image" ? (
+              <img
+                src={selectedProject.screenshots[expandedImage]?.image}
+                alt="Expanded Screenshot"
+                className="max-w-[80vw] max-h-[80vh] object-contain rounded-lg"
+              />
+            ) : selectedProject.screenshots[expandedImage]?.type === "video" ? (
+              <video
+                src={selectedProject.screenshots[expandedImage]?.image}
+                controls
+                autoPlay
+                className="max-w-[80vw] max-h-[80vh] object-contain rounded-lg"
+              />
+            ) : null}
 
             {/* Close button */}
             <button
